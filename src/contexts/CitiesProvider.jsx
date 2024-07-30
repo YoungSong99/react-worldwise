@@ -1,5 +1,4 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import PropTypes from "prop-types";
 
 const BASE_URL = 'http://localhost:9000'
 
@@ -7,13 +6,13 @@ const CitiesContext = createContext()
 
 function CitiesProvider({children}) {
     const [cities, setCities] = useState([])
+    const [currentCity, setCurrentCity] = useState({})
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         async function fetchCities() {
             try {
                 const res = await fetch(`${BASE_URL}/cities`);
-                console.log(res)
                 const data = await res.json();
                 setCities(data);
             } catch {
@@ -26,23 +25,34 @@ function CitiesProvider({children}) {
         fetchCities();
     }, []);
 
+    async function getCity(id) {
+        try {
+            const res = await fetch(`${BASE_URL}/cities/${id}`);
+            const data = await res.json();
+            setCurrentCity(data);
+        } catch {
+            alert('There was an error loading data...');
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <CitiesContext.Provider value={{
             cities,
-            isLoading
+            isLoading,
+            currentCity,
+            getCity,
         }}>
             {children}
         </CitiesContext.Provider>
     )
 }
 
-CitiesProvider.propTypes = {
-    children: PropTypes.node.isRequired,
-};
 
-function UseCities(){
+function UseCities() {
     const context = useContext(CitiesContext);
-    if(context === undefined) throw new Error('CitiesContext used outside of CitiesProvider')
+    if (context === undefined) throw new Error('CitiesContext used outside of CitiesProvider')
     return context
 }
 

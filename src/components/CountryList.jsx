@@ -1,7 +1,6 @@
 import styles from './CountryList.module.css';
 import Spinner from "./Spinner.jsx";
 import Message from "./Message.jsx";
-import PropTypes from "prop-types";
 import CountryItem from "./CountryItem.jsx";
 import {UseCities} from "../contexts/CitiesProvider.jsx";
 
@@ -27,10 +26,5 @@ function CountryList() {
         </ul>
     );
 }
-
-CountryList.propTypes = {
-    cities: PropTypes.arrayOf(PropTypes.object).isRequired,
-    isLoading: PropTypes.bool.isRequired,
-};
 
 export default CountryList;

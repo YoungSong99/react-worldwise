@@ -1,6 +1,5 @@
 import styles from './CityList.module.css'
 import Spinner from "./Spinner.jsx";
-import PropTypes from "prop-types";
 import Message from "./Message.jsx";
 import CityItem from "./CityItem.jsx";
 import {UseCities} from "../contexts/CitiesProvider.jsx";
@@ -20,10 +19,5 @@ function CityList() {
         </ul>
     )
 }
-
-CityList.propTypes = {
-    cities: PropTypes.arrayOf(PropTypes.object).isRequired,
-    isLoading: PropTypes.bool.isRequired,
-};
 
 export default CityList
